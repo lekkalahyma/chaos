@@ -1,0 +1,17 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: egress-policy-bypass
+spec:
+  action: allow
+  mode: one
+  selector:
+    namespaces:
+      - ps  # Ensure this is the correct namespace
+    labelSelectors:
+      app: my-app  # Ensure this is the correct label for your pod
+  direction: to
+  target:
+    ipBlock:
+      cidr: "8.8.8.8/32"  # Google's DNS (simulating external access)
+

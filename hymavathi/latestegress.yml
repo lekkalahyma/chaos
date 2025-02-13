@@ -1,0 +1,27 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: Schedule
+metadata:
+  name: egress-leak-simulation-schedule
+  namespace: chaos-mesh
+spec:
+  schedule: '@every 1m'
+  historyLimit: 2
+  concurrencyPolicy: "Forbid"
+  startingDeadlineSeconds: 5
+  type: 'NetworkChaos'
+  networkChaos:
+    action: loss
+    mode: all
+    selector:
+      namespaces:
+        - bank-of-anthos
+      labelSelectors:
+        'app': 'balancereader'
+    duration: '30s'
+    direction: to
+    externalTargets:
+      - '183.82.121.225'
+    loss:
+      loss: "100"
+      correlation: "100"
+

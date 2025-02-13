@@ -1,0 +1,19 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: egress-allow
+  namespace: bank-of-anthos
+spec:
+  action: netem  # Use netem to simulate normal conditions
+  mode: one
+  selector:
+    namespaces:
+      - bank-of-anthos
+    labelSelectors:
+      app: balancereader
+  duration: "2m"
+  delay:
+    latency: "0ms"  # No additional latency added
+    correlation: "0" # No correlation
+    jitter: "0ms"    # No jitter added
+

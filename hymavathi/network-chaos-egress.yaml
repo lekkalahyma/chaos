@@ -1,0 +1,16 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: egress-block
+  namespace: chaos-mesh
+spec:
+  action: partition  # Action to block egress traffic
+  mode: all  # Apply the chaos to all selected pods
+  selector:
+    namespaces:
+      - bank-of-anthos  # Namespace of your pods
+    labelSelectors:
+      app: balancereader  # Modify this with the appropriate label selector to target your pods
+  direction: from  # This defines that you're blocking egress traffic
+  duration: "2m"  # Duration of the egress block (e.g., 2 minutes)
+

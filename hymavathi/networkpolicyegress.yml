@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: restrict-egress
+    #  namespace: ps
+spec:
+  podSelector:
+    matchLabels:
+      app: my-app
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - podSelector: {}
+
+---
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: egress-leak-simulation
+    # namespace: chaos-mesh
+spec:
+  action: loss
+  mode: all
+  selector:
+    namespaces:
+      - ps
+    labelSelectors:
+      app: my-app
+  duration: '300s'
+  direction: to
+  externalTargets:
+    - '183.82.121.225' # Replace with your target IP
+  loss:
+    loss: "100" # Simulate complete packet loss
+    correlation: "100"
+

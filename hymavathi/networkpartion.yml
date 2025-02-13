@@ -1,0 +1,19 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-latency
+  namespace: chaos-mesh
+spec:
+  action: delay
+  mode: all
+  selector:
+    namespaces:
+      - bank-of-anthos  # Replace with the actual namespace of your pod
+    labelSelectors:
+      app: ledger-db-0   # Replace with the appropriate label of your pod
+  delay:
+    latency: "100ms"   # Introduces 100ms of delay in packets
+    correlation: "100"  # Set correlation as a string (quotes added)
+    jitter: "50ms"      # Set jitter as a valid duration string (e.g., 50ms)
+  duration: "60s"       # Duration of the chaos experiment
+

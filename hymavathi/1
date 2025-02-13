@@ -1,0 +1,21 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: block-egress-transactionhistory
+    # namespace: chaos-mesh
+spec:
+  action: partition
+  mode: one  # This is correct for specifying a single target
+  selector:
+    namespaces:
+      - bank-of-anthos
+    labelSelectors:
+      app: transactionhistory
+  direction: to
+  target:
+    mode: one  # Specify the mode as one here
+    selector:
+      namespaces:
+        - bank-of-anthos  # Ensures egress is blocked for this namespace
+  duration: "300s"  # Blocks for 5 minutes
+

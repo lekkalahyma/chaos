@@ -1,0 +1,17 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-leak
+  namespace: chaos-mesh
+spec:
+  action: loss  # Action to simulate packet loss (leak)
+  mode: one  # Apply chaos to one pod
+  selector:
+    namespaces:
+      - bank-of-anthos  # Namespace of the targeted pod (corrected list syntax)
+    labelSelectors:
+      "app": "balancereader"  # Modify with appropriate label selector
+  loss:
+    loss: "50"  # 50% of packets will be lost, simulating a network leak
+  duration: "2m"  # Chaos duration (corrected missing quote)
+
